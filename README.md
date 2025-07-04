@@ -20,18 +20,19 @@ A beautiful desktop weather widget that helps you decide if you need a hoodie! P
 - 🔄 **Auto-updates**: Configurable refresh intervals
 - 💻 **Cross-platform**: Works on Windows, macOS, and Linux
 
-## 🚀 Easy Installation (Choose Your Method)
+## 🚀 Easy Installation (Professional Windows Installer)
 
-### 🌟 Super Easy - No Installation Required (Recommended)
+### 🌟 Recommended - Windows Installer (No Security Warnings!)
+1. **Download** `HoodieWeatherSetup.exe` from [Releases](https://github.com/yourusername/hoodie-weather-widget/releases)
+2. **Double-click** the installer - trusted Windows installation wizard
+3. **Follow the setup wizard** - automatic Python detection and guidance
+4. **Choose your options** - shortcuts, auto-startup, etc.
+5. **Launch and enjoy!** - professional Windows integration
+
+### 🎯 Alternative - Portable Version
 1. **Download** `HoodieWeatherWidget_Portable.zip`
 2. **Extract** and double-click `HoodieWeather.exe`
-3. **Done!** Widget appears in top-right corner
-
-### 🎯 One-Click Full Installation
-1. **Download** the project folder
-2. **Double-click** `easy_install.bat`
-3. **Follow prompts** - everything is automatic!
-4. **Enjoy** desktop shortcuts and auto-startup
+3. **Done!** No installation required
 
 ### 🛠️ For Developers
 ```bash
@@ -40,6 +41,68 @@ cd hoodie-weather-widget
 pip install -r requirements.txt
 python weather_widget_app.py
 ```
+
+## 🔨 Building the Application
+
+The project includes powerful build tools in the `start/` folder for creating distribution packages:
+
+### Quick Build (Recommended)
+```bash
+# Windows - Creates both portable and installer packages
+quick_build.bat
+
+# Or run the Python script directly
+cd start
+python build_executable.py
+```
+
+### Custom Build Options
+```bash
+cd start
+
+# Build only portable package
+python build_executable.py --portable-only
+
+# Build only Windows installer
+python build_executable.py --installer-only
+
+# Skip executable build (use existing)
+python build_executable.py --no-build
+
+# Build executable only (no packages)
+python build_executable.py --no-build
+# Then create packages separately
+```
+
+### Build Output Structure
+All build artifacts are organized in the `output/` folder:
+```
+output/
+├── build/                           # PyInstaller temporary files
+├── dist/
+│   └── HoodieWeather.exe           # Main executable
+├── HoodieWeather.spec              # PyInstaller spec file
+├── HoodieWeatherWidget_Portable/   # Portable package folder
+│   ├── HoodieWeather.exe
+│   └── README.txt
+└── installer_output/
+    └── HoodieWeatherSetup.exe      # Windows installer
+```
+
+### Build Requirements
+- **Python 3.8+** with pip
+- **PyInstaller** (auto-installed during build)
+- **Inno Setup** (for Windows installer) - [Download here](https://jrsoftware.org/isinfo.php)
+
+## 🏆 Why Use the Windows Installer?
+
+✅ **Trusted by users** - Professional Windows installer experience  
+✅ **No security warnings** - No `.bat` file trust issues  
+✅ **Smart Python detection** - Guides users to install Python if needed  
+✅ **Automatic shortcuts** - Desktop and Start Menu integration  
+✅ **Clean uninstall** - Proper Windows Add/Remove Programs entry  
+✅ **Optional auto-startup** - Starts with Windows if desired  
+✅ **Modern wizard interface** - Familiar Windows installation process
 
 ## 📱 How to Use
 
@@ -58,7 +121,7 @@ python weather_widget_app.py
 
 - 🎯 **Zero Configuration**: Works immediately out of the box
 - 🌍 **Auto-Location**: Detects your location automatically  
-- 📱 **One-Click Install**: `easy_install.bat` handles everything
+- ⚡ **Quick Build**: `quick_build.bat` creates all distribution packages
 - 🖥️ **Desktop Integration**: Shortcuts and startup options
 - 🧥 **Smart Recommendations**: AI-powered hoodie comfort analysis
 
@@ -86,8 +149,28 @@ Click the ⚙️ settings button to configure:
 - 🎨 **Theme Options**: UI customization
 
 ## 🏗️ Project Structure
-- No API key required - works out of the box!
-- Provides accurate weather data worldwide
+
+```
+hoodie-weather-widget/
+├── start/                          # 🔨 Build tools and scripts
+│   └── build_executable.py        # Main build script with options
+├── src/                            # 📦 Source code modules
+│   ├── ui/                        # User interface components
+│   ├── api/                       # Weather API and location services  
+│   └── core/                      # Core business logic and settings
+├── config/                         # ⚙️ Configuration files
+├── docs/                          # 📚 Documentation
+├── assets/                        # 🎨 Icons and images
+├── output/                        # 📁 Build outputs (created during build)
+├── weather_widget_app.py          # 🚀 Main application entry point
+├── quick_build.bat                # ⚡ Quick build script for Windows
+└── installer_script.iss           # 🔧 Inno Setup installer script
+```
+
+### Key Features
+- **🆓 No API key required** - works out of the box!
+- **🌍 Global coverage** - provides accurate weather data worldwide
+- **🔒 Privacy-focused** - no data collection or tracking
 
 ## Widget Features
 1. **Auto-start with Windows**: The setup script adds the widget to Windows startup
@@ -102,12 +185,14 @@ Click the ⚙️ settings button to configure:
 - **Too Warm (Red)**: Above 28°C
 
 ## Project Structure
-The widget is now organized into a modular structure for easier maintenance:
+The widget is organized into a modular structure for easier maintenance and building:
+- `start/` - Build tools and automation scripts
 - `src/ui/` - User interface components
 - `src/api/` - Weather API and location services  
 - `src/core/` - Core business logic and settings
 - `config/` - Configuration files
 - `docs/` - Documentation
+- `output/` - Generated build artifacts (created during build process)
 
 ## Customization
 You can modify the following in `src/ui/weather_widget.py`:

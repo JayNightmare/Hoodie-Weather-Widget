@@ -1,0 +1,54 @@
+🧥 Welcome to Hoodie Weather Widget Setup!
+
+═══════════════════════════════════════════════════════════════════
+
+Thank you for choosing Hoodie Weather Widget - the smart way to decide 
+if you need a hoodie based on current weather conditions!
+
+WHAT YOU'RE INSTALLING:
+══════════════════════
+✅ A beautiful desktop weather widget
+✅ Real-time weather data (using free Open-Meteo API)
+✅ Smart hoodie comfort recommendations
+✅ Auto-location detection or manual location setting
+✅ Modern, translucent design that stays on top
+✅ Configurable settings and refresh intervals
+
+SYSTEM REQUIREMENTS:
+═══════════════════
+• Windows 10 or later (64-bit recommended)
+• Internet connection for weather data
+• 50 MB of available disk space
+• No additional software required (standalone executable)
+
+FEATURES YOU'LL ENJOY:
+══════════════════════
+🌤️  Live Weather Updates - Current temperature, conditions, and forecasts
+🧥  Smart Recommendations - AI-powered comfort analysis
+📍  Flexible Location - GPS auto-detect or manual city selection  
+🎨  Modern Interface - Beautiful, semi-transparent widget design
+📱  Always Available - Stays on top, draggable, easy access
+⚙️  Easy Configuration - Simple settings panel
+🔄  Auto Refresh - Configurable update intervals (5-60 minutes)
+🔔  Smart Notifications - Optional weather alerts
+🚀  Fast & Lightweight - Minimal system resources
+
+PRIVACY & SECURITY:
+══════════════════
+• No personal data collection
+• Weather data from trusted Open-Meteo API
+• All settings stored locally on your computer
+• No network access except for weather updates
+• Open source - code available for review
+
+AFTER INSTALLATION:
+══════════════════
+The installer will offer to:
+• Create desktop shortcut (optional)
+• Add to Start Menu (recommended)
+• Start with Windows (optional)
+• Add right-click context menu (optional)
+
+Ready to install? Click 'Next' to continue!
+
+═══════════════════════════════════════════════════════════════════

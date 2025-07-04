@@ -105,3 +105,8 @@ debug/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Builds
+installer_output/
+*.exe
+HoodieWeatherWidget_Portable/
