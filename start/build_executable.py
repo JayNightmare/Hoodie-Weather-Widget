@@ -37,8 +37,8 @@ def build_executable():
     if os.path.exists("../output/dist"):
         shutil.rmtree("../output/dist")
         print("Cleaned dist directory")
-        
-    sep = ':' if platform.system() != "Windows" else ';'
+
+    sep = ":" if platform.system() != "Windows" else ";"
 
     # PyInstaller command
     cmd = [
