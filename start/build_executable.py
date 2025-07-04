@@ -115,7 +115,10 @@ def create_distribution_package():
     os.makedirs(dist_folder)
 
     # Copy executable
-    shutil.copy2("../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe")
+    if platform.system() == "Windows":
+        shutil.copy2("../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe")
+    else:
+        shutil.copy2("../output/dist/HoodieWeather", f"{dist_folder}/HoodieWeather")
 
     # Copy config if it exists
     if os.path.exists("../src/config"):
@@ -265,8 +268,9 @@ def build_release_packages():
     print("=" * 50)
 
     success_count = 0
+    total_packages = 1  # Start with portable (available on all platforms)
 
-    # Build portable version
+    # Build portable version (works on all platforms)
     print("\n1. Creating Portable Package...")
     if create_distribution_package():
         success_count += 1
@@ -274,30 +278,44 @@ def build_release_packages():
     else:
         print("[ERROR] Portable package failed!")
 
-    # Build installer version
-    print("\n2. Creating Windows Installer...")
-    if create_installer():
-        success_count += 1
-        print("[GOOD] Windows installer ready!")
+    # Build installer version (Windows only)
+    if platform.system() == "Windows":
+        total_packages = 2
+        print("\n2. Creating Windows Installer...")
+        if create_installer():
+            success_count += 1
+            print("[GOOD] Windows installer ready!")
+        else:
+            print("[ERROR] Windows installer failed!")
     else:
-        print("[ERROR] Windows installer failed!")
+        print(f"\n2. Skipping Windows installer (running on {platform.system()})")
+        print("   Windows installer creation is only available on Windows")
 
-    print(f"\nRelease Summary: {success_count}/2 packages created successfully")
+    print(f"\nRelease Summary: {success_count}/{total_packages} packages created successfully")
 
     if success_count > 0:
         print("\n[GOOD] Release packages available:")
-        if os.path.exists("../output/HoodieWeatherWidget_Portable"):
-            print("../output/HoodieWeatherWidget_Portable/ (portable version)")
-        if os.path.exists("../output/installer_output/HoodieWeatherSetup.exe"):
-            print(
-                "../output/installer_output/HoodieWeatherSetup.exe (Windows installer)"
-            )
+        
+        # Check for portable package
+        portable_path = "../output/HoodieWeatherWidget_Portable"
+        if os.path.exists(portable_path):
+            print(f"{portable_path}/ (portable version)")
+        
+        # Check for Windows installer (only on Windows)
+        if platform.system() == "Windows":
+            installer_path = "../output/installer_output/HoodieWeatherSetup.exe"
+            if os.path.exists(installer_path):
+                print(f"{installer_path} (Windows installer)")
 
         print("\n[GOOD] Distribution recommendations:")
-        print("   Primary: HoodieWeatherSetup.exe (professional installer)")
-        print("   Alternative: Portable folder (no installation needed)")
+        if platform.system() == "Windows":
+            print("   Primary: HoodieWeatherSetup.exe (professional installer)")
+            print("   Alternative: Portable folder (no installation needed)")
+        else:
+            print("   Portable folder (cross-platform, no installation needed)")
+            print("   Note: For Windows installer, run this script on Windows")
 
-    return success_count == 2
+    return success_count == total_packages
 
 
 if __name__ == "__main__":
