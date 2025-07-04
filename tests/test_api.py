@@ -29,7 +29,7 @@ def test_weather_api():
                 data = weather_response.json()
                 current = data["current"]
 
-                print("   ✓ Weather data received successfully!")
+                print("[GOOD] Weather data received successfully!")
                 print(f"   Temperature: {current['temperature_2m']}°C")
                 print(f"   Humidity: {current['relative_humidity_2m']}%")
                 print(f"   Wind: {current['wind_speed_10m']} m/s")
@@ -38,20 +38,20 @@ def test_weather_api():
 
                 return True
             else:
-                print(f"   ✗ Weather API error: {weather_response.status_code}")
+                print(f"[ERROR] Weather API error: {weather_response.status_code}")
                 return False
         else:
-            print(f"   ✗ Location error: {location_data}")
+            print(f"[ERROR] Location error: {location_data}")
             return False
 
     except Exception as e:
-        print(f"   ✗ Error: {e}")
+        print(f"[ERROR] Error: {e}")
         return False
 
 
 if __name__ == "__main__":
     success = test_weather_api()
     if success:
-        print("\n🎉 All tests passed! The widget should work with live weather data.")
+        print("\n[GOOD] All tests passed! The widget should work with live weather data.")
     else:
-        print("\n❌ Tests failed. The widget will fall back to demo data.")
+        print("\n[ERROR] Tests failed. The widget will fall back to demo data.")
