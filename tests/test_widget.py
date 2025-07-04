@@ -3,11 +3,11 @@ import os
 import sys
 import pytest
 
+
 @pytest.mark.skipif(
     not os.environ.get("DISPLAY") and sys.platform != "win32",
-    reason="No display available."
+    reason="No display available.",
 )
-
 def test_tk_widget():
     # Simple test to see if tkinter works
     root = tk.Tk()
@@ -21,17 +21,24 @@ def test_tk_widget():
     root.geometry(f"300x280+{x}+{y}")
 
     # Basic styling
-    root.configure(bg='#2c3e50')
-    root.attributes('-topmost', True)
-    root.attributes('-alpha', 0.9)
+    root.configure(bg="#2c3e50")
+    root.attributes("-topmost", True)
+    root.attributes("-alpha", 0.9)
 
     # Add some content
-    label = tk.Label(root, text="Test Widget", font=('Arial', 16, 'bold'), 
-                    bg='#2c3e50', fg='white')
+    label = tk.Label(
+        root, text="Test Widget", font=("Arial", 16, "bold"), bg="#2c3e50", fg="white"
+    )
     label.pack(pady=50)
 
-    button = tk.Button(root, text="Close", command=root.quit,
-                    bg='#e74c3c', fg='white', font=('Arial', 10))
+    button = tk.Button(
+        root,
+        text="Close",
+        command=root.quit,
+        bg="#e74c3c",
+        fg="white",
+        font=("Arial", 10),
+    )
     button.pack(pady=20)
 
     print("Starting test widget...")
