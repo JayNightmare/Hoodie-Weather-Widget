@@ -122,7 +122,7 @@ def create_distribution_package():
 
     # Copy config if it exists
     if os.path.exists("../src/config"):
-        shutil.copytree("config", f"{dist_folder}/config")
+        shutil.copytree("../src/config", f"{dist_folder}/config")
 
     # Create simple README for users
     readme_content = """#  Hoodie Weather Widget - Portable Version
