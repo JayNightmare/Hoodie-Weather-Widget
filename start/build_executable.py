@@ -356,9 +356,19 @@ if __name__ == "__main__":
     # Determine what packages to create
     if args.portable_only:
         print(" Creating portable package only...")
+        if not args.no_build:
+            build_success = build_executable()
+            if not build_success:
+                print("[ERROR] Build failed. Please check errors above.")
+                sys.exit(1)
         success = create_distribution_package()
     elif args.installer_only:
         print(" Creating installer only...")
+        if not args.no_build:
+            build_success = build_executable()
+            if not build_success:
+                print("[ERROR] Build failed. Please check errors above.")
+                sys.exit(1)
         success = create_installer()
     else:
         print("Creating both portable and installer packages...")
