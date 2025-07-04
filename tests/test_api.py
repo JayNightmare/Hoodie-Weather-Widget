@@ -52,6 +52,8 @@ def test_weather_api():
 if __name__ == "__main__":
     success = test_weather_api()
     if success:
-        print("\n[GOOD] All tests passed! The widget should work with live weather data.")
+        print(
+            "\n[GOOD] All tests passed! The widget should work with live weather data."
+        )
     else:
         print("\n[ERROR] Tests failed. The widget will fall back to demo data.")
