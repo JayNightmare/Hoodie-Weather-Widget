@@ -54,19 +54,19 @@ jobs:
               if: runner.os == 'Linux'
               run: |
                   pyinstaller --onefile --windowed --name "HoodieWeather-linux" weather_widget_app.py
-                  cd dist && tar -czf HoodieWeather-linux.tar.gz HoodieWeather-linux
+                  cd output/dist && tar -czf HoodieWeather-linux.tar.gz HoodieWeather-linux
 
             - name: Build executable (Windows)
               if: runner.os == 'Windows'
               run: |
                   pyinstaller --onefile --windowed --name "HoodieWeather-windows.exe" weather_widget_app.py
-                  cd dist && powershell Compress-Archive HoodieWeather-windows.exe HoodieWeather-windows.zip
+                  cd output/dist && powershell Compress-Archive HoodieWeather-windows.exe HoodieWeather-windows.zip
 
             - name: Build executable (macOS)
               if: runner.os == 'macOS'
               run: |
                   pyinstaller --onefile --windowed --name "HoodieWeather-macos" weather_widget_app.py
-                  cd dist && tar -czf HoodieWeather-macos.tar.gz HoodieWeather-macos
+                  cd output/dist && tar -czf HoodieWeather-macos.tar.gz HoodieWeather-macos
 
             - name: Upload Release Asset (Linux)
               if: runner.os == 'Linux'
@@ -75,7 +75,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./dist/HoodieWeather-linux.tar.gz
+                  asset_path: ./output/dist/HoodieWeather-linux.tar.gz
                   asset_name: HoodieWeather-linux.tar.gz
                   asset_content_type: application/gzip
 
@@ -86,7 +86,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./dist/HoodieWeather-windows.zip
+                  asset_path: ./output/dist/HoodieWeather-windows.zip
                   asset_name: HoodieWeather-windows.zip
                   asset_content_type: application/zip
 
@@ -97,6 +97,6 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./dist/HoodieWeather-macos.tar.gz
+                  asset_path: ./output/dist/HoodieWeather-macos.tar.gz
                   asset_name: HoodieWeather-macos.tar.gz
                   asset_content_type: application/gzip
