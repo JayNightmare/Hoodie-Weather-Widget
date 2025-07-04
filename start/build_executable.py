@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+import platform
 
 
 def build_executable():
@@ -36,6 +37,8 @@ def build_executable():
     if os.path.exists("../output/dist"):
         shutil.rmtree("../output/dist")
         print("Cleaned dist directory")
+        
+    sep = ':' if platform.system() != "Windows" else ';'
 
     # PyInstaller command
     cmd = [
@@ -46,7 +49,8 @@ def build_executable():
         "--distpath=../output/dist",  # Output executable to output/dist
         "--workpath=../output/build",  # Use output/build for work files
         "--specpath=../output",  # Put .spec file in output folder
-        f"--add-data={os.path.abspath('../src')};src",  # Include source directory with absolute path
+        # f"--add-data={os.path.abspath('../src')};src",  # Include source directory with absolute path
+        f"--add-data={os.path.abspath('../src')}{sep}src",
         # "--add-data=config;config",     # Include config directory if exists
         "--hidden-import=tkinter",  # Ensure tkinter is included
         "--hidden-import=requests",  # Ensure requests is included
