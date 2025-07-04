@@ -171,7 +171,6 @@ Typical sizes:
 
 ### GitHub Actions
 ```yaml
-# Example workflow for automated releases
 name: Build and Release
 on:
   push:
