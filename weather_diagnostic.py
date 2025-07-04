@@ -11,7 +11,7 @@ import requests
 
 def get_location_info():
     """Get detailed location information"""
-    print("🔍 Detecting location...")
+    print("Detecting location...")
     try:
         # Primary location service
         response = requests.get("http://ip-api.com/json/", timeout=10)
