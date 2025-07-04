@@ -73,7 +73,11 @@ def build_executable():
         print("[GOOD] Build completed successfully!")
 
         # Check if executable was created
-        exe_path = Path("../output/dist/HoodieWeather.exe")
+        if platform.system() == "Windows":
+            exe_path = Path("../output/dist/HoodieWeather.exe")
+        else:
+            exe_path = Path("../output/dist/HoodieWeather")
+            
         if exe_path.exists():
             size_mb = exe_path.stat().st_size / (1024 * 1024)
             print(f"Executable created: {exe_path}")
