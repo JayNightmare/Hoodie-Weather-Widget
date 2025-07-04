@@ -1,6 +1,6 @@
-import winreg
 import os
 import shutil
+import winreg
 from pathlib import Path
 
 
@@ -25,7 +25,7 @@ def add_to_startup():
         # Copy the batch file to startup folder
         shutil.copy2(str(bat_file), str(startup_file))
 
-        print(f"✓ Added to startup: {startup_file}")
+        print(f"[GOOD] Added to startup: {startup_file}")
         return True
 
     except Exception as e:
@@ -50,7 +50,7 @@ def create_desktop_shortcut():
         shortcut.Description = "Hoodie Weather Widget"
         shortcut.save()
 
-        print(f"✓ Desktop shortcut created: {shortcut_path}")
+        print(f"[GOOD] Desktop shortcut created: {shortcut_path}")
         return True
 
     except ImportError:
@@ -73,9 +73,9 @@ if __name__ == "__main__":
 
     print()
     if startup_success:
-        print("✓ Widget will start automatically with Windows")
+        print("[GOOD] Widget will start automatically with Windows")
     else:
-        print("✗ Could not add to startup automatically")
+        print("[ERROR] Could not add to startup automatically")
 
     print()
     print("Setup Summary:")

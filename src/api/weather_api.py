@@ -2,10 +2,11 @@
 Weather API module for fetching weather data from various sources.
 """
 
-import requests
 import json
-import time
 import random
+import time
+
+import requests
 
 
 class WeatherAPI:

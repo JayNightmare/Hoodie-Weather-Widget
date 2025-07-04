@@ -1,16 +1,16 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
-import threading
-import time
-from datetime import datetime
 import os
 import sys
+import threading
+import time
+import tkinter as tk
+from datetime import datetime
+from tkinter import messagebox, ttk
 
 # Import from other modules in the project
 from api.weather_api import WeatherAPI
+from core.hoodie_calculator import HoodieComfortCalculator
 from core.settings_manager import SettingsManager
 from ui.ui_components import UIComponents
-from core.hoodie_calculator import HoodieComfortCalculator
 
 
 class WeatherWidget:

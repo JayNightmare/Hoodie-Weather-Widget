@@ -3,8 +3,8 @@ Weather Widget Application - Main Entry Point
 Desktop weather widget with hoodie comfort recommendations.
 """
 
-import sys
 import os
+import sys
 
 # Add the src directory to Python path
 src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "src"))
@@ -19,10 +19,10 @@ def main():
     try:
         from src.ui.weather_widget import WeatherWidget
 
-        print("✓ UI Module loaded")
-        print("✓ API Module loaded")
-        print("✓ Core Modules loaded")
-        print("✓ All dependencies ready")
+        print("[GOOD] UI Module loaded")
+        print("[GOOD] API Module loaded")
+        print("[GOOD] Core Modules loaded")
+        print("[GOOD] All dependencies ready")
         print()
 
         # Create and run the widget
@@ -30,7 +30,7 @@ def main():
         widget.run()
 
     except ImportError as e:
-        print(f"❌ Error importing modules: {e}")
+        print(f"[ERROR] Error importing modules: {e}")
         print("\nMake sure the src folder structure is correct:")
         print("  src/ui/weather_widget.py")
         print("  src/ui/ui_components.py")
@@ -39,9 +39,9 @@ def main():
         print("  src/core/hoodie_calculator.py")
         sys.exit(1)
     except KeyboardInterrupt:
-        print("\n👋 Widget closed by user.")
+        print("\nWidget closed by user.")
     except Exception as e:
-        print(f"❌ Error starting widget: {e}")
+        print(f"[ERROR] Error starting widget: {e}")
         import traceback
 
         traceback.print_exc()
