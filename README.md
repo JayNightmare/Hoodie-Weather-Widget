@@ -1,9 +1,15 @@
-# 🧥 Hoodie Weather Widget
+<div align="center">
 
-[![CI/CD Pipeline](https://github.com/yourusername/hoodie-weather-widget/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/hoodie-weather-widget/actions/workflows/ci.yml)
-[![Release](https://github.com/yourusername/hoodie-weather-widget/actions/workflows/release.yml/badge.svg)](https://github.com/yourusername/hoodie-weather-widget/actions/workflows/release.yml)
+# 🧥 Hoodie Weather Widget
+    
+[![CI/CD Pipeline](https://github.com/JayNightmare/Hoodie-Weather-Widget/actions/workflows/ci.yml/badge.svg)](https://github.com/JayNightmare/Hoodie-Weather-Widget/actions/workflows/ci.yml)
+[![Release](https://github.com/JayNightmare/Hoodie-Weather-Widget/actions/workflows/release.yml/badge.svg)](https://github.com/JayNightmare/Hoodie-Weather-Widget/actions/workflows/release.yml)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+</div>
+
+
 
 A beautiful desktop weather widget that helps you decide if you need a hoodie! Perfect for those who want to stay comfortable in changing weather conditions.
 
@@ -23,7 +29,7 @@ A beautiful desktop weather widget that helps you decide if you need a hoodie! P
 ## 🚀 Easy Installation (Professional Windows Installer)
 
 ### 🌟 Recommended - Windows Installer (No Security Warnings!)
-1. **Download** `HoodieWeatherSetup.exe` from [Releases](https://github.com/yourusername/hoodie-weather-widget/releases)
+1. **Download** `HoodieWeatherSetup.exe` from [Releases](https://github.com/JayNightmare/Hoodie-Weather-Widget/releases)
 2. **Double-click** the installer - trusted Windows installation wizard
 3. **Follow the setup wizard** - automatic Python detection and guidance
 4. **Choose your options** - shortcuts, auto-startup, etc.
@@ -36,8 +42,8 @@ A beautiful desktop weather widget that helps you decide if you need a hoodie! P
 
 ### 🛠️ For Developers
 ```bash
-git clone https://github.com/yourusername/hoodie-weather-widget.git
-cd hoodie-weather-widget
+git clone https://github.com/JayNightmare/Hoodie-Weather-Widget.git
+cd Hoodie-Weather-Widget
 pip install -r requirements.txt
 python weather_widget_app.py
 ```
@@ -151,7 +157,7 @@ Click the ⚙️ settings button to configure:
 ## 🏗️ Project Structure
 
 ```
-hoodie-weather-widget/
+Hoodie-Weather-Widget/
 ├── start/                          # 🔨 Build tools and scripts
 │   └── build_executable.py        # Main build script with options
 ├── src/                            # 📦 Source code modules
