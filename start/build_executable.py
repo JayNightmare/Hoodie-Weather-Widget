@@ -77,7 +77,7 @@ def build_executable():
             exe_path = Path("../output/dist/HoodieWeather.exe")
         else:
             exe_path = Path("../output/dist/HoodieWeather")
-            
+
         if exe_path.exists():
             size_mb = exe_path.stat().st_size / (1024 * 1024)
             print(f"Executable created: {exe_path}")
@@ -116,7 +116,9 @@ def create_distribution_package():
 
     # Copy executable
     if platform.system() == "Windows":
-        shutil.copy2("../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe")
+        shutil.copy2(
+            "../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe"
+        )
     else:
         shutil.copy2("../output/dist/HoodieWeather", f"{dist_folder}/HoodieWeather")
 
@@ -291,16 +293,18 @@ def build_release_packages():
         print(f"\n2. Skipping Windows installer (running on {platform.system()})")
         print("   Windows installer creation is only available on Windows")
 
-    print(f"\nRelease Summary: {success_count}/{total_packages} packages created successfully")
+    print(
+        f"\nRelease Summary: {success_count}/{total_packages} packages created successfully"
+    )
 
     if success_count > 0:
         print("\n[GOOD] Release packages available:")
-        
+
         # Check for portable package
         portable_path = "../output/HoodieWeatherWidget_Portable"
         if os.path.exists(portable_path):
             print(f"{portable_path}/ (portable version)")
-        
+
         # Check for Windows installer (only on Windows)
         if platform.system() == "Windows":
             installer_path = "../output/installer_output/HoodieWeatherSetup.exe"
