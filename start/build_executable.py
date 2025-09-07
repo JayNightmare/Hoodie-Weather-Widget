@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 def build_executable():
     """Build standalone executable using PyInstaller"""
 
