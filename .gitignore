@@ -68,8 +68,6 @@ Thumbs.db
 Desktop.ini
 
 # Application specific
-config/widget_settings.json
-src/config/widget_settings.json
 *.log
 *.tmp
 
