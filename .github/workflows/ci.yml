@@ -35,7 +35,7 @@ jobs:
 
             - name: Run diagnostic tests
               run: |
-                  python weather_diagnostic.py
+                  python weather_diagnostic.py --test
 
     code-quality:
         runs-on: ubuntu-latest
