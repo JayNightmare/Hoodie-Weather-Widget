@@ -66,7 +66,7 @@ def build_executable():
     print(f"Running: {' '.join(cmd)}")
     print()
 
-    # Build the executable
+    # * Build the executable
     try:
         subprocess.check_call(cmd)
         print()

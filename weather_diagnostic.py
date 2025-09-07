@@ -4,6 +4,7 @@ Weather Diagnostic Tool
 Compares weather data from different sources and shows location detection accuracy
 """
 import json
+import sys
 from datetime import datetime
 
 import requests
@@ -85,12 +86,20 @@ def get_weather_comparison(lat, lon):
 
 
 def main():
+
     print("=" * 60)
     print("HOODIE WEATHER WIDGET - DIAGNOSTIC TOOL")
     print("=" * 60)
 
-    # Get location
-    lat, lon, city = get_location_info()
+    # Check for test mode
+    test_mode = "--test" in sys.argv
+    if test_mode:
+        print("[TEST MODE] Using mock location for diagnostic tests.")
+        # Mock location: New York City
+        lat, lon, city = 40.7128, -74.0060, "New York"
+    else:
+        # Get location
+        lat, lon, city = get_location_info()
 
     if lat and lon:
         # Get weather comparison

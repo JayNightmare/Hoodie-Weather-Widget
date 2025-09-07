@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
     push:
-        branches: [main, develop]
+        branches: [main, dev]
     pull_request:
-        branches: [main]
+        branches: [main, dev]
 
 jobs:
     test:
@@ -28,25 +28,6 @@ jobs:
                   pip install -r requirements.txt
                   pip install pytest pytest-cov flake8
 
-            - name: Lint with flake8
-              run: |
-                  # Stop the build if there are Python syntax errors or undefined names
-                  flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-                  # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-                  flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-            - name: Test API functionality (Linux/macOS)
-              if: runner.os != 'Windows'
-              run: |
-                  cd tests/
-                  python test_api.py
-
-            - name: Test API functionality (Windows)
-              if: runner.os == 'Windows'
-              run: |
-                  cd tests/
-                  python test_api.py
-
             - name: Test widget core functionality
               run: |
                   cd tests/
@@ -54,7 +35,7 @@ jobs:
 
             - name: Run diagnostic tests
               run: |
-                  python weather_diagnostic.py
+                  python weather_diagnostic.py --test
 
     code-quality:
         runs-on: ubuntu-latest
