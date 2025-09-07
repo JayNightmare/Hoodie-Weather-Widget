@@ -3,12 +3,11 @@
 Build script to create a standalone executable for Hoodie Weather Widget
 """
 import os
+import platform
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-import platform
-
 
 def build_executable():
     """Build standalone executable using PyInstaller"""
