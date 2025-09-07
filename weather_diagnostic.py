@@ -4,10 +4,10 @@ Weather Diagnostic Tool
 Compares weather data from different sources and shows location detection accuracy
 """
 import json
+import sys
 from datetime import datetime
 
 import requests
-import sys
 
 
 def get_location_info():
