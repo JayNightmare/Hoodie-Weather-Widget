@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+import platform
 
 
 def build_executable():
@@ -37,6 +38,8 @@ def build_executable():
         shutil.rmtree("../output/dist")
         print("Cleaned dist directory")
 
+    sep = ":" if platform.system() != "Windows" else ";"
+
     # PyInstaller command
     cmd = [
         "pyinstaller",
@@ -46,7 +49,8 @@ def build_executable():
         "--distpath=../output/dist",  # Output executable to output/dist
         "--workpath=../output/build",  # Use output/build for work files
         "--specpath=../output",  # Put .spec file in output folder
-        f"--add-data={os.path.abspath('../src')};src",  # Include source directory with absolute path
+        # f"--add-data={os.path.abspath('../src')};src",  # Include source directory with absolute path
+        f"--add-data={os.path.abspath('../src')}{sep}src",
         # "--add-data=config;config",     # Include config directory if exists
         "--hidden-import=tkinter",  # Ensure tkinter is included
         "--hidden-import=requests",  # Ensure requests is included
@@ -69,7 +73,11 @@ def build_executable():
         print("[GOOD] Build completed successfully!")
 
         # Check if executable was created
-        exe_path = Path("../output/dist/HoodieWeather.exe")
+        if platform.system() == "Windows":
+            exe_path = Path("../output/dist/HoodieWeather.exe")
+        else:
+            exe_path = Path("../output/dist/HoodieWeather")
+
         if exe_path.exists():
             size_mb = exe_path.stat().st_size / (1024 * 1024)
             print(f"Executable created: {exe_path}")
@@ -107,11 +115,16 @@ def create_distribution_package():
     os.makedirs(dist_folder)
 
     # Copy executable
-    shutil.copy2("../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe")
+    if platform.system() == "Windows":
+        shutil.copy2(
+            "../output/dist/HoodieWeather.exe", f"{dist_folder}/HoodieWeather.exe"
+        )
+    else:
+        shutil.copy2("../output/dist/HoodieWeather", f"{dist_folder}/HoodieWeather")
 
     # Copy config if it exists
     if os.path.exists("../src/config"):
-        shutil.copytree("config", f"{dist_folder}/config")
+        shutil.copytree("../src/config", f"{dist_folder}/config")
 
     # Create simple README for users
     readme_content = """#  Hoodie Weather Widget - Portable Version
@@ -257,8 +270,9 @@ def build_release_packages():
     print("=" * 50)
 
     success_count = 0
+    total_packages = 1  # Start with portable (available on all platforms)
 
-    # Build portable version
+    # Build portable version (works on all platforms)
     print("\n1. Creating Portable Package...")
     if create_distribution_package():
         success_count += 1
@@ -266,30 +280,46 @@ def build_release_packages():
     else:
         print("[ERROR] Portable package failed!")
 
-    # Build installer version
-    print("\n2. Creating Windows Installer...")
-    if create_installer():
-        success_count += 1
-        print("[GOOD] Windows installer ready!")
+    # Build installer version (Windows only)
+    if platform.system() == "Windows":
+        total_packages = 2
+        print("\n2. Creating Windows Installer...")
+        if create_installer():
+            success_count += 1
+            print("[GOOD] Windows installer ready!")
+        else:
+            print("[ERROR] Windows installer failed!")
     else:
-        print("[ERROR] Windows installer failed!")
+        print(f"\n2. Skipping Windows installer (running on {platform.system()})")
+        print("   Windows installer creation is only available on Windows")
 
-    print(f"\nRelease Summary: {success_count}/2 packages created successfully")
+    print(
+        f"\nRelease Summary: {success_count}/{total_packages} packages created successfully"
+    )
 
     if success_count > 0:
         print("\n[GOOD] Release packages available:")
-        if os.path.exists("../output/HoodieWeatherWidget_Portable"):
-            print("../output/HoodieWeatherWidget_Portable/ (portable version)")
-        if os.path.exists("../output/installer_output/HoodieWeatherSetup.exe"):
-            print(
-                "../output/installer_output/HoodieWeatherSetup.exe (Windows installer)"
-            )
+
+        # Check for portable package
+        portable_path = "../output/HoodieWeatherWidget_Portable"
+        if os.path.exists(portable_path):
+            print(f"{portable_path}/ (portable version)")
+
+        # Check for Windows installer (only on Windows)
+        if platform.system() == "Windows":
+            installer_path = "../output/installer_output/HoodieWeatherSetup.exe"
+            if os.path.exists(installer_path):
+                print(f"{installer_path} (Windows installer)")
 
         print("\n[GOOD] Distribution recommendations:")
-        print("   Primary: HoodieWeatherSetup.exe (professional installer)")
-        print("   Alternative: Portable folder (no installation needed)")
+        if platform.system() == "Windows":
+            print("   Primary: HoodieWeatherSetup.exe (professional installer)")
+            print("   Alternative: Portable folder (no installation needed)")
+        else:
+            print("   Portable folder (cross-platform, no installation needed)")
+            print("   Note: For Windows installer, run this script on Windows")
 
-    return success_count == 2
+    return success_count == total_packages
 
 
 if __name__ == "__main__":
@@ -330,9 +360,19 @@ if __name__ == "__main__":
     # Determine what packages to create
     if args.portable_only:
         print(" Creating portable package only...")
+        if not args.no_build:
+            build_success = build_executable()
+            if not build_success:
+                print("[ERROR] Build failed. Please check errors above.")
+                sys.exit(1)
         success = create_distribution_package()
     elif args.installer_only:
         print(" Creating installer only...")
+        if not args.no_build:
+            build_success = build_executable()
+            if not build_success:
+                print("[ERROR] Build failed. Please check errors above.")
+                sys.exit(1)
         success = create_installer()
     else:
         print("Creating both portable and installer packages...")

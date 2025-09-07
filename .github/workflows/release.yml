@@ -1,5 +1,8 @@
 name: Release
 
+permissions:
+    contents: write
+
 on:
     push:
         tags:
@@ -50,34 +53,53 @@ jobs:
                   pip install -r requirements.txt
                   pip install pyinstaller
 
-            - name: Build executable (Linux)
-              if: runner.os == 'Linux'
+            - name: Install platform-specific dependencies
+              if: runner.os == 'Windows'
               run: |
-                  pyinstaller --onefile --windowed --name "HoodieWeather-linux" weather_widget_app.py
-                  cd output/dist && tar -czf HoodieWeather-linux.tar.gz HoodieWeather-linux
+                  # Note: Inno Setup needs to be pre-installed on Windows runners
+                  echo "Windows build will use existing Inno Setup installation"
+
+            # - name: Build executable (Linux)
+            #   if: runner.os == 'Linux'
+            #   run: |
+            #       cd start
+            #       python build_executable.py --portable-only
+            #       cd ../output
+            #       tar -czf HoodieWeather-linux.tar.gz HoodieWeatherWidget_Portable/
 
             - name: Build executable (Windows)
               if: runner.os == 'Windows'
               run: |
-                  pyinstaller --onefile --windowed --name "HoodieWeather-windows.exe" weather_widget_app.py
-                  cd output/dist && powershell Compress-Archive HoodieWeather-windows.exe HoodieWeather-windows.zip
+                  python start/build_executable.py || echo "Installer creation failed, continuing with portable build..."
+                  if (Test-Path "output/installer_output/HoodieWeatherSetup.exe") {
+                      cd output/installer_output
+                      powershell Compress-Archive HoodieWeatherSetup.exe HoodieWeather-windows.zip
+                  } else {
+                      echo "Installer not found, creating portable version and README..."
+                      python start/build_executable.py --portable-only
+                      cd output
+                      echo "# Hoodie Weather Widget - Windows Build`n`nThe installer creation failed during the automated build process.`n`nTo manually compile the widget with the installer, please run:`n``````bash`npython start/build_executable.py`n``````bash`n`nFor a portable version only, run:`n``````bash`npython start/build_executable.py --portable-only`n``````bash`n`nThe portable version is included in this release as HoodieWeatherWidget_Portable.zip" > README-Windows-Build.txt
+                      powershell Compress-Archive -Path "HoodieWeatherWidget_Portable/*","README-Windows-Build.txt" -DestinationPath "HoodieWeather-windows.zip"
+                  }
 
-            - name: Build executable (macOS)
-              if: runner.os == 'macOS'
-              run: |
-                  pyinstaller --onefile --windowed --name "HoodieWeather-macos" weather_widget_app.py
-                  cd output/dist && tar -czf HoodieWeather-macos.tar.gz HoodieWeather-macos
+            # - name: Build executable (macOS)
+            #   if: runner.os == 'macOS'
+            #   run: |
+            #       cd start
+            #       python build_executable.py --portable-only
+            #       cd ../output
+            #       tar -czf HoodieWeather-macos.tar.gz HoodieWeatherWidget_Portable/
 
-            - name: Upload Release Asset (Linux)
-              if: runner.os == 'Linux'
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./output/dist/HoodieWeather-linux.tar.gz
-                  asset_name: HoodieWeather-linux.tar.gz
-                  asset_content_type: application/gzip
+            # - name: Upload Release Asset (Linux)
+            #   if: runner.os == 'Linux'
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+            #       asset_path: ./output/HoodieWeather-linux.tar.gz
+            #       asset_name: HoodieWeather-linux.tar.gz
+            #       asset_content_type: application/gzip
 
             - name: Upload Release Asset (Windows)
               if: runner.os == 'Windows'
@@ -86,17 +108,30 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./output/dist/HoodieWeather-windows.zip
+                  asset_path: ./output/HoodieWeather-windows.zip
                   asset_name: HoodieWeather-windows.zip
                   asset_content_type: application/zip
 
-            - name: Upload Release Asset (macOS)
-              if: runner.os == 'macOS'
-              uses: actions/upload-release-asset@v1
+            - name: Upload Windows Installer
+              if: runner.os == 'Windows'
+              run: |
+                  if (Test-Path "./output/installer_output/HoodieWeatherSetup.exe") {
+                      echo "Installer found, uploading..."
+                      # Use GitHub CLI to upload the installer
+                      gh release upload ${{ github.ref_name }} "./output/installer_output/HoodieWeatherSetup.exe" --clobber
+                  } else {
+                      echo "Installer not found, skipping installer upload"
+                  }
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ needs.create-release.outputs.upload_url }}
-                  asset_path: ./output/dist/HoodieWeather-macos.tar.gz
-                  asset_name: HoodieWeather-macos.tar.gz
-                  asset_content_type: application/gzip
+
+            # - name: Upload Release Asset (macOS)
+            #   if: runner.os == 'macOS'
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+            #       asset_path: ./output/HoodieWeather-macos.tar.gz
+            #       asset_name: HoodieWeather-macos.tar.gz
+            #       asset_content_type: application/gzip
