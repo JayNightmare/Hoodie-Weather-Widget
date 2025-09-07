@@ -45,6 +45,14 @@ def main():
         import traceback
 
         traceback.print_exc()
+        
+        # Special handling for display-related errors that could cause startup loops
+        error_str = str(e).lower()
+        if any(term in error_str for term in ['display', 'screen', 'tkinter', 'tk', 'gui']):
+            print("\n[INFO] This appears to be a display/GUI related error.")
+            print("This can happen during system startup before the display is ready.")
+            print("The widget will not start to prevent startup loops.")
+            
         sys.exit(1)
 
 
