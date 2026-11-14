@@ -16,8 +16,17 @@ from ui.ui_components import UIComponents
 class WeatherWidget:
     def __init__(self):
         print("Initializing WeatherWidget...")
-        self.root = tk.Tk()
-        print("Tkinter root created...")
+        try:
+            self.root = tk.Tk()
+            print("Tkinter root created...")
+        except Exception as e:
+            print(f"[ERROR] Failed to create Tkinter root: {e}")
+            print("This often happens when:")
+            print("- No display is available (headless system)")
+            print("- Display is not ready during system startup")
+            print("- GUI libraries are not properly installed")
+            raise
+            
         self.setup_window()
         print("Window setup complete...")
         self.weather_data = {}
